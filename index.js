@@ -1,12 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors'; // Import CORS
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import postRoutes from './routes/post.route.js';
 import commentRoutes from './routes/comment.route.js';
 import cookieParser from 'cookie-parser';
-import helmet from 'helmet'; // Import Helmet
+import helmet from 'helmet';
+import morgan from "morgan";
 
 dotenv.config();
 
@@ -21,15 +23,20 @@ mongoose
 
 const app = express();
 
-// Nonaktifkan CSP dengan mengatur contentSecurityPolicy menjadi false
-app.use(
-  helmet({
-    contentSecurityPolicy: false, // CSP dinonaktifkan
-  })
-);
+// Gunakan CORS
+app.use(cors());
+
+// Gunakan Helmet untuk keamanan
+app.use(morgan("common"));
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.get("/", (req, res) => {
+  res.send("This is home route");
+});
 
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
