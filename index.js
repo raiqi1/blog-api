@@ -21,18 +21,10 @@ mongoose
 
 const app = express();
 
-// Gunakan Helmet untuk keamanan, termasuk Content Security Policy (CSP)
+// Nonaktifkan CSP dengan mengatur contentSecurityPolicy menjadi false
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "https://vercel.live"], // Izinkan sumber skrip dari vercel.live
-        styleSrc: ["'self'", "'unsafe-inline'"], // Izinkan inline style jika perlu
-        imgSrc: ["'self'", "data:"], // Izinkan gambar dari source 'self' dan inline base64
-        // Tambahkan aturan lain jika diperlukan
-      },
-    },
+    contentSecurityPolicy: false, // CSP dinonaktifkan
   })
 );
 
