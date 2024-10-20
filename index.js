@@ -9,6 +9,8 @@ import commentRoutes from "./routes/comment.route.js";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import morgan from "morgan";
+import bodyParser from "body-parser";
+
 
 dotenv.config();
 
@@ -22,20 +24,14 @@ mongoose
   });
 
 const app = express();
-
-// Gunakan CORS
-app.use(cors());
-
-// Gunakan Helmet untuk keamanan
-app.use(morgan("common"));
-// app.use(
-//   helmet({
-//     contentSecurityPolicy: false,
-//   })
-// );
-
 app.use(express.json());
 app.use(cookieParser());
+app.use(morgan("common"));
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("This is home route");
@@ -57,6 +53,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000!");
+const port = Number(process.env.PORT) || 3000;
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server running on part ${port}`);
 });
