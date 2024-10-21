@@ -61,6 +61,8 @@ export const signin = async (req, res, next) => {
       .status(200)
       .cookie('access_token', token, {
         httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // pastikan secure true di production
+        sameSite: 'None', // penting untuk cross-origin
       })
       .json(rest);
   } catch (error) {
