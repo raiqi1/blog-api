@@ -33,7 +33,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors(
   {
-    origin: 'http://localhost:5173',
+    origin: [
+      'http://localhost:5173', 
+      'https://frontend-blog-gray-seven.vercel.app'
+    ],
     credentials: true,
   }
 ));
